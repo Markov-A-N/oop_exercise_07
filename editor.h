@@ -14,8 +14,7 @@ public:
 	}
 
 	void InsertPrimitive(FigureType type, std::pair<double, double> *vertices) {
-		std::shared_ptr<Command> command = std::shared_ptr<Command>(
-			new InsertCommand(type, vertices));
+		std::shared_ptr<Command> command = std::shared_ptr<Command>(new InsertCommand(type, vertices));
 		command->SetDocument(Doc);
 		command->Execute();
 		History.push(command);
@@ -27,8 +26,9 @@ public:
 			command->SetDocument(Doc);
 			command->Execute();
 			History.push(command);
-		} catch (std::runtime_error &err) {
+		} catch (std::exception &err) {
 			std::cout << err.what() << "\n";
+			throw;
 		}
 	}
 
@@ -43,7 +43,7 @@ public:
 
 	void Undo() {
 		if (History.empty()) {
-			throw std::logic_error("History is empty");
+			throw std::logic_error("empty");
 		}
 		std::shared_ptr<Command> lastCommand = History.top();
 		lastCommand->UnExecute();

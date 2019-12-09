@@ -6,6 +6,7 @@
 #include <utility>
 #include <cmath>
 #include <memory>
+#include "factory.h"
 
 enum FigureType {
 	TRIANGLE,
@@ -122,6 +123,11 @@ public:
 		}
 	}
 
+	~Triangle() {
+		delete [] vertices;
+		vertices = nullptr;
+	}
+
 	double Area() const override {
 		return Geometry::Area(vertices, 3);
 	}
@@ -211,6 +217,11 @@ public:
 		}
 	}
 
+	~Square() {
+		delete [] vertices;
+		vertices = nullptr;
+	}
+
 	double Area() const override {
 		return Geometry::Area(vertices, 4);
 	}
@@ -297,6 +308,11 @@ public:
 		}
 	}
 
+	~Rectangle() {
+		delete [] vertices;
+		vertices = nullptr;
+	}
+
 	double Area() const override {
 		return Geometry::Area(vertices, 4);
 	}
@@ -339,53 +355,6 @@ public:
 
 	int getId() const override {
 		return Id;
-	}
-};
-
-class Factory {
-public:
-	using Vertex = std::pair<double, double>;
-	virtual std::shared_ptr<Figure> FigureCreate() const = 0;
-	virtual std::shared_ptr<Figure> FigureCreate(Vertex *vertices, int id) 
-					const = 0;
-};
-
-class TriangleFactory : public Factory {
-public:
-	std::shared_ptr<Figure> FigureCreate() const override {
-		return std::shared_ptr<Figure>(new Triangle{});
-	}
-
-	std::shared_ptr<Figure> FigureCreate(Vertex *vertices, int id) const
-															override {
-		return std::shared_ptr<Figure>(new Triangle{vertices[0], vertices[1],
-				vertices[2], id});
-	}
-};
-
-class SquareFactory : public Factory {
-public:
-	std::shared_ptr<Figure> FigureCreate() const override {
-		return std::shared_ptr<Figure>(new Square{});
-	}
-
-	std::shared_ptr<Figure> FigureCreate(Vertex *vertices, int id) const
-															override {
-		return std::shared_ptr<Figure>(new Square{vertices[0], vertices[1],
-				vertices[2], vertices[3], id});
-	}
-};
-
-class RectangleFactory : public Factory {
-public:
-	std::shared_ptr<Figure> FigureCreate() const override {
-		return std::shared_ptr<Figure>(new Rectangle{});
-	}
-
-	std::shared_ptr<Figure> FigureCreate(Vertex *vertices, int id) const
-															override {
-		return std::shared_ptr<Figure>(new Rectangle{vertices[0], vertices[1],
-				vertices[2], vertices[3], id});
 	}
 };
 

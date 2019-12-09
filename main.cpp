@@ -84,14 +84,19 @@ void add(Editor &editor) {
 	char type;
 	std::cin >> type;
 	if (type == 'T') {
+		//std::shared_ptr<std::pair<double, double>> vertices = std::make_shared<std::pair<double, double>>(new std::pair<double, double>[3])
 		std::pair<double, double> *vertices = new std::pair<double, double>[3];
 		for (int i = 0; i < 3; i++) {
 			std::cin >> vertices[i].first >> vertices[i].second;
 		}
 		try {
 			editor.InsertPrimitive(TRIANGLE, vertices);
+			delete [] vertices;
+			vertices = nullptr;
 		} catch (std::logic_error &err) {
 			std::cout << err.what() << "\n";
+			delete [] vertices;
+			vertices = nullptr;
 			return;
 		}
 	}
@@ -102,8 +107,12 @@ void add(Editor &editor) {
 		}
 		try {
 			editor.InsertPrimitive(SQUARE, vertices);
+			delete [] vertices;
+			vertices = nullptr;
 		} catch (std::logic_error &err) {
 			std::cout << err.what() << "\n";
+			delete [] vertices;
+			vertices = nullptr;
 			return;
 		}
 	}
@@ -114,8 +123,12 @@ void add(Editor &editor) {
 		}
 		try {	
 			editor.InsertPrimitive(RECTANGLE, vertices);
+			delete [] vertices;
+			vertices = nullptr;
 		} catch (std::logic_error &err) {
 			std::cout << err.what() << "\n";
+			delete [] vertices;
+			vertices = nullptr;
 			return;
 		}
 	}
@@ -128,20 +141,41 @@ void add(Editor &editor) {
 	std::cout << "Primitive is added\n";
 }
 
-void remove(Editor &editor) {
+/*void remove(Editor &editor) {
 	if (!editor.DocumentExist()) {
 		throw std::runtime_error("Document does not exist"); 
 	}
 	int id;
+	
 	std::cin >> id;
 
-	editor.RemovePrimitive(id);
+	try {
+		editor.RemovePrimitive(id);
+	} catch (std::exception &err) {;
+		return;
+	}
 	std::cout << "Primitive with " << id << " is removed\n";
+}*/
+
+void remove(Editor &editor) {
+	if (!editor.DocumentExist()) {
+		std::cout << "Document does not exist\n";
+	}
+	int id;
+	std::cin >> id;
+	if (id <= 0) {
+		std::cout << "Invalid id\n";
+		return;
+	} 
+	try {
+		editor.RemovePrimitive(id);
+	} catch (std::exception &e) {
+		return;
+	}
+	std::cout << "Add primitive at id: " << id << "\n";
 }
 
 int main(int argc, char **argv) {
-	/*SDL_Window *gWindow = nullptr;
-	SDL_Renderer *gRenderer = nullptr;*/
 	Editor editor;
 	std::string cmd;
 
@@ -174,7 +208,11 @@ int main(int argc, char **argv) {
 			}
 		}
 		else if (cmd == "Remove") {
-			remove(editor);
+			try {
+				remove(editor);
+			} catch (std::exception &err) {
+				std::cout << err.what() << "\n";
+			}
 		}
 		else if (cmd == "Undo") {
 			try {

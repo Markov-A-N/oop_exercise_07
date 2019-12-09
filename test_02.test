@@ -1,0 +1,12 @@
+Create p
+Add T -1 -1 0 0 0 -1
+Add S 0 0 0 1 1 1 1 0
+Add R 0 0 0 2 4 0 4 2
+Print
+Save newFile
+Undo
+Undo
+Print
+load
+No
+newFile

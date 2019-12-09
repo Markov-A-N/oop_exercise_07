@@ -40,8 +40,17 @@ public:
 	RemoveCommand(int id) : Id(id), Pos(0), figure(nullptr) {};
 
 	void Execute() override {
+
 		figure = Doc->GetFigure(Id);
+		if (figure == nullptr) {
+			std::cout << "ERROR\n";
+			return;
+		}
 		Pos = Doc->GetPos(Id);
+		if (Pos == 0) {
+			std::cout << "ERROR\n";
+			return;
+		}
 		Doc->RemovePrimitive(Id);
 	}
 

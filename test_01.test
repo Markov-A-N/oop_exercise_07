@@ -1,0 +1,12 @@
+Menu
+Create newDoc
+Add T 0 0 0 1 1 1
+Add S 0 0 1 1 0 1 1 0
+Add R 2 2 0 0 0 2 2 0
+Print
+Remove 1
+Print
+Remove 2
+Print
+Remove 1
+Print

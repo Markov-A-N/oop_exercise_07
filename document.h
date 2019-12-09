@@ -55,18 +55,16 @@ public:
 															vertices) {
 		switch (type) {
 			case TRIANGLE:
-				Buffer.push_back(triangleFactory.FigureCreate(vertices, 
-																Id++));
+				Buffer.push_back(triangleFactory.FigureCreate(vertices, Id));
 				break;
 			case SQUARE:
-				Buffer.push_back(squareFactory.FigureCreate(vertices, 
-																Id++));
+				Buffer.push_back(squareFactory.FigureCreate(vertices, Id));
 				break;
 			case RECTANGLE:
-				Buffer.push_back(rectangleFactory.FigureCreate(vertices, 
-																Id++));
+				Buffer.push_back(rectangleFactory.FigureCreate(vertices, Id));
 				break;
 		}
+		Id++;
 	}
 
 private:
@@ -128,22 +126,28 @@ private:
 	}
 
 	std::shared_ptr<Figure> GetFigure(int id) {
-		if (id > Id || id == 0) {
-			throw std::runtime_error("Invalid id");
+		/*auto it = std::find_if(Buffer.begin(),
+			Buffer.end(), [id](std::shared_ptr<Figure> s) -> bool {
+				return id == s->getId();
+			});
+		return *it;//*/
+		for (auto it = Buffer.begin(); it != Buffer.end(); it++) {
+			if (id == (*it)->getId()) {
+				return *it;
+			}
 		}
-		auto it = std::find_if(Buffer.begin(), Buffer.end(),
-			[id](std::shared_ptr<Figure> shape) -> bool {
-			return id == shape->getId();
-		});
-		return *it;
+		return nullptr;
 	}
 
 	int GetPos(int id) {
-		auto it = std::find_if(Buffer.begin(), Buffer.end(),
-			[id](std::shared_ptr<Figure> shape) -> bool {
-				return id == shape->getId();
-			});
-		return std::distance(Buffer.begin(), it);
+		int i = 0;
+		for (auto it = Buffer.begin(); it != Buffer.end(); it++) {
+			if (id == (*it)->getId()) {
+				return i; 
+			}
+			i++;
+		}
+		return -1;
 	}
 
 	void InsertPrimitive(int pos, std::shared_ptr<Figure> figure) {

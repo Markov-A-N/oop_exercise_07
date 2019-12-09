@@ -1,1 +1,0 @@
-/usr/bin/c++   -Wall -g  -rdynamic CMakeFiles/oop_exercise_07.dir/main.cpp.o  -o oop_exercise_07 
