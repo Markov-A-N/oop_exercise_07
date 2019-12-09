@@ -8,14 +8,13 @@
 #include <algorithm>
 #include <utility>
 #include "figures.h"
+#include "factory.h"
 
 class Document {
 public:
-	Document() : Id(1), Name(""), Buffer(0), triangleFactory(),
-		squareFactory(), rectangleFactory() {};
+	Document() : Id(1), Name(""), Buffer(0), factory() {};
 
-	Document(std::string name) : Id(1), Name(std::move(name)), Buffer(0),
-		triangleFactory(), squareFactory(), rectangleFactory() {};
+	Document(std::string name) : Id(1), Name(std::move(name)), Buffer(0), factory() {};
 
 	~Document() = default;
 
@@ -55,13 +54,13 @@ public:
 															vertices) {
 		switch (type) {
 			case TRIANGLE:
-				Buffer.push_back(triangleFactory.FigureCreate(vertices, Id));
+				Buffer.push_back(factory.FigureCreate(TRIANGLE, vertices, Id));
 				break;
 			case SQUARE:
-				Buffer.push_back(squareFactory.FigureCreate(vertices, Id));
+				Buffer.push_back(factory.FigureCreate(SQUARE, vertices, Id));
 				break;
 			case RECTANGLE:
-				Buffer.push_back(rectangleFactory.FigureCreate(vertices, Id));
+				Buffer.push_back(factory.FigureCreate(RECTANGLE, vertices, Id));
 				break;
 		}
 		Id++;
@@ -71,9 +70,10 @@ private:
 	int Id;
 	std::string Name;
 	std::list<std::shared_ptr<Figure>> Buffer;
-	TriangleFactory triangleFactory;
+	Factory factory;
+	/*TriangleFactory triangleFactory;
 	SquareFactory squareFactory;
-	RectangleFactory rectangleFactory;
+	RectangleFactory rectangleFactory;*/
 
 	friend class InsertCommand;
 	friend class RemoveCommand;
@@ -111,15 +111,16 @@ private:
 			}
 			switch (type) {
 				case TRIANGLE:
-					Buffer.push_back(triangleFactory.FigureCreate());
+					Buffer.push_back(factory.FigureCreate(TRIANGLE));
 					break;
 				case SQUARE:
-					Buffer.push_back(squareFactory.FigureCreate());
+					Buffer.push_back(factory.FigureCreate(SQUARE));
 					break;
 				case RECTANGLE:
-					Buffer.push_back(rectangleFactory.FigureCreate());
+					Buffer.push_back(factory.FigureCreate(RECTANGLE));
 					break;
 			}
+
 			Buffer.back()->Deserialize(is);
 		}
 		Id = Buffer.size();

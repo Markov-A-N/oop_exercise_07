@@ -6,7 +6,7 @@
 #include <utility>
 #include <cmath>
 #include <memory>
-#include "factory.h"
+
 
 enum FigureType {
 	TRIANGLE,

@@ -172,7 +172,7 @@ void remove(Editor &editor) {
 	} catch (std::exception &e) {
 		return;
 	}
-	std::cout << "Add primitive at id: " << id << "\n";
+	std::cout << "Remove primitive at id: " << id << "\n";
 }
 
 int main(int argc, char **argv) {
