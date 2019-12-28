@@ -31,7 +31,7 @@ void document::InsertIndex(std::string &str, size_t index) {
 }
 
 void document::Delete() {
-	buffer_.erase(cursor_, 1);
+	buffer_.erase(cursor_ - 1, 1);
 	cursor_--;
 }
 
