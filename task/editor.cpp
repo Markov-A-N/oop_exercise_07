@@ -22,7 +22,7 @@ void editor::DeleteInDocument() {
 		std::cout << "Empty document\n";
 		return;
 	}
-	std::shared_ptr<command> cmd = std::shared_ptr<command>(new DeleteCmd(doc_->GetElem(index), index, doc_));
+	std::shared_ptr<command> cmd = std::shared_ptr<command>(new DeleteCmd(doc_->GetElem(index - 1), index - 1, doc_));
 	doc_->Delete();
 	history_.push(cmd);
 }

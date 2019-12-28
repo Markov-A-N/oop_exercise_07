@@ -12,20 +12,20 @@ int main() {
 	while (std::cin >> str) {
 		if (islower(str[0])) {
 			editor_.InsertInDocument(str);
-		} else if (str == "Right") {
+		} else if (str == "Right" || str == "R") {
 			editor_.CursorRightInDocument();
-		} else if (str == "Left") {
+		} else if (str == "Left" || str == "L") {
 			editor_.CursorLeftInDocument();
-		} else if (str == "Print") {
+		} else if (str == "Print" || str == "P") {
 			editor_.PrintDocument();
-		} else if (str == "Create") {
+		} else if (str == "Create" || str == "C") {
 			std::cout << "Input name of file: ";
 			std::string fileName;
 			std::cin >> fileName;
 			editor_.CreateDocument(fileName);
-		} else if (str == "Backspace") {
+		} else if (str == "Backspace" || str == "B") {
 			editor_.DeleteInDocument();
-		} else if (str == "Undo") {
+		} else if (str == "Undo" || str == "U") {
 			try {
 				editor_.Undo();				
 			} catch (std::logic_error &e) {
@@ -36,7 +36,7 @@ int main() {
 			std::string fileName;
 			std::cin >> fileName;
 			editor_.LoadDocument(fileName); 
-		} else if (str == "Save") {
+		} else if (str == "Save" || str == "S") {
 			editor_.SaveDocument();
 		} else if (str == "Exit" || str == "Quit" || str == "E" || str == "Q") {
 			break;
