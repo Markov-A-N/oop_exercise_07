@@ -1,0 +1,4 @@
+C
+new_file
+abcdef L L L xyz R p P U P U P uuu P Q
+
